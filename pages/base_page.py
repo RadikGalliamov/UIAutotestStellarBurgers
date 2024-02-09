@@ -1,19 +1,16 @@
 import allure
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from locators.main_page_locators import MainPageLocators
-from data import TestDataUrl
 
 
 class BasePage:
     @allure.step('Создаем объекта класса BasePage')
-    def __init__(self, driver, url):
+    def __init__(self, driver):
         self.driver = driver
-        self.url = url
 
-    @allure.step("Открыть страницу")
-    def open(self):
-        self.driver.get(self.url)
+    @allure.step("Открыть страницу по URL")
+    def open_url(self, url):
+        self.driver.get(url)
 
     @allure.step("Найти элемент с ожиданием")
     def find_element(self, locator, wait_time=10):
@@ -45,19 +42,19 @@ class BasePage:
         )
         return element
 
-    @allure.step("Получение текста элемента")
-    def get_text(self, locator, wait_time=10):
-        element = self.wait_for_visibility(locator, wait_time)
-        return element.text
+    # @allure.step("Получение текста элемента")
+    # def get_text(self, locator, wait_time=10):
+    #     element = self.wait_for_visibility(locator, wait_time)
+    #     return element.text
 
-    @allure.step("Переключаемся на новую вкладку")
-    def switch_to_new_tab(self):
-        main_window_handle = self.driver.current_window_handle
-        new_tab_handle = None
-        # Переключаемся на новую вкладку
-        for window_handle in self.driver.window_handles:
-            if window_handle != main_window_handle:
-                new_tab_handle = window_handle
-                break
-        if new_tab_handle:
-            self.driver.switch_to.window(new_tab_handle)
+    # @allure.step("Переключаемся на новую вкладку")
+    # def switch_to_new_tab(self):
+    #     main_window_handle = self.driver.current_window_handle
+    #     new_tab_handle = None
+    #     # Переключаемся на новую вкладку
+    #     for window_handle in self.driver.window_handles:
+    #         if window_handle != main_window_handle:
+    #             new_tab_handle = window_handle
+    #             break
+    #     if new_tab_handle:
+    #         self.driver.switch_to.window(new_tab_handle)

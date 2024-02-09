@@ -27,10 +27,10 @@ def driver(request):
     driver.quit()
 
 
-# @pytest.fixture()
-# def log_in(driver):
-#     driver.get(TestDataUrl.LOGIN_PAGE_URL)
-#     driver.find_element(*LoginPageLocators.EMAIL_FIELD).send_keys(TestLoginPageData.email)
-#     driver.find_element(*LoginPageLocators.PASSWORD_FIELD).send_keys(TestLoginPageData.password)
-#     driver.find_element(*LoginPageLocators.ENTER).click()
-#     return driver
+@pytest.fixture()
+def log_in(driver):
+    driver.get(TestDataUrl.LOGIN_PAGE_URL)
+    driver.find_element(*LoginPageLocators.EMAIL_FIELD).send_keys(TestLoginPageData.email)
+    driver.find_element(*LoginPageLocators.PASSWORD_FIELD).send_keys(TestLoginPageData.password)
+    driver.find_element(*LoginPageLocators.ENTER).click()
+    return driver

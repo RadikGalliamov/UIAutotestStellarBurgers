@@ -1,6 +1,7 @@
 import allure
 import pytest
 
+from data import TestDataUrl
 from pages.main_page import MainPageHelper
 from locators.main_page_locators import MainPageLocators
 
@@ -19,7 +20,8 @@ from locators.main_page_locators import MainPageLocators
 class TestMainPage:
     @allure.title('переход по клику на «Конструктор»')
     @allure.description("")
-    def test_questions_about_important(self, driver, question_locator, answer_locator, expected_text):
+    def test_click_on_constructor(self, driver):
         page = MainPageHelper(driver)
-        page.open()
-        pass
+        page.open_url(TestDataUrl.LOGIN_PAGE_URL)
+        page.click_on_the_constructor_button()
+        assert page.find_text_assemble_the_burger(), "Не найден элемент текст 'Собери бургер'"

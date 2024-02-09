@@ -27,3 +27,10 @@ class LoginPageHelper(MainPageHelper):
         self.find_element(LoginPageLocators.PASSWORD_FIELD).send_keys(TestLoginPageData.password)
         self.find_element(LoginPageLocators.ENTER).click()
 
+    @allure.step("Клик по разделу 'История'")
+    def click_on_the_text_history_section(self):
+        self.wait_and_click(locator=PersonalCabinetPageLocators.HISTORY_OF_ORDERS_TEXT)
+
+    @allure.step("Клик по разделу 'Выход'")
+    def click_on_the_text_exit_section(self):
+        self.wait_and_click(locator=PersonalCabinetPageLocators.EXIT_TEXT)
