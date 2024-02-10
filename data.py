@@ -15,3 +15,5 @@ class TestForgotPasswordData:
 class TestLoginPageData:
     email = "uniq_1840@yandex.ru"
     password = "123456"
+
+

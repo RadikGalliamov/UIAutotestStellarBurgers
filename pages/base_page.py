@@ -1,6 +1,7 @@
 import allure
 from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support import expected_conditions as EC, expected_conditions
+from selenium.webdriver.common.action_chains import ActionChains
 
 
 class BasePage:
@@ -41,6 +42,23 @@ class BasePage:
             message=f"Элемент не стал кликабельным: {locator}"
         )
         return element
+
+    @allure.step('Ожидание отсутствия локатора')
+    def not_find_element(self, locator, time=30):
+        return WebDriverWait(
+            self.driver, time
+        ).until(
+            expected_conditions.none_of(
+                expected_conditions.visibility_of_element_located(locator)
+            ),
+            message=f'Элемент найден'
+        )
+
+    @allure.step("Переместить элемент на другое место на странице")
+    def drag_and_drop_element(self, element_to_drag, target_location):
+        action_chains = ActionChains(self.driver)
+        # Выполнение действия перетаскивания и бросания элемента
+        action_chains.drag_and_drop(element_to_drag, target_location).perform()
 
     # @allure.step("Получение текста элемента")
     # def get_text(self, locator, wait_time=10):
