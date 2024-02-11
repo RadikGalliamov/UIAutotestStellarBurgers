@@ -3,8 +3,6 @@ import allure
 from locators.login_page_locators import LoginPageLocators
 from locators.main_page_locators import MainPageLocators
 from locators.personal_cabinet_locators import PersonalCabinetPageLocators
-from pages.base_page import BasePage
-from data import TestLoginPageData
 from pages.main_page import MainPageHelper
 
 
@@ -21,16 +19,22 @@ class LoginPageHelper(MainPageHelper):
     def find_text_profile(self):
         self.find_element(PersonalCabinetPageLocators.PROFILE_TEXT)
 
-    @allure.step("Найти текст 'Kjuby'")
-    def log_in(self):
-        self.find_element(LoginPageLocators.EMAIL_FIELD).send_keys(TestLoginPageData.email)
-        self.find_element(LoginPageLocators.PASSWORD_FIELD).send_keys(TestLoginPageData.password)
-        self.find_element(LoginPageLocators.ENTER).click()
-
-    @allure.step("Клик по разделу 'История'")
+    @allure.step("Клик по разделу 'История заказов'")
     def click_on_the_text_history_section(self):
         self.wait_and_click(locator=PersonalCabinetPageLocators.HISTORY_OF_ORDERS_TEXT)
 
     @allure.step("Клик по разделу 'Выход'")
     def click_on_the_text_exit_section(self):
         self.wait_and_click(locator=PersonalCabinetPageLocators.EXIT_TEXT)
+
+    @allure.step("Проверить список заказов из 'Истории заказов' пользователя в списке 'Ленты заказов'")
+    def check_lists_history_orders_and_order_feed(self, list1, list2):
+        for value1 in list1:
+            found = False
+            for value2 in list2:
+                if value1 == value2:
+                    found = True
+                    break
+            if not found:
+                return False
+        return True

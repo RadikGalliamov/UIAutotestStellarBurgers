@@ -60,6 +60,21 @@ class BasePage:
         # Выполнение действия перетаскивания и бросания элемента
         action_chains.drag_and_drop(element_to_drag, target_location).perform()
 
+    @allure.step('Ожидаем исчезновения текста в элементе')
+    def is_disappeared(self, locator, text_in_element):
+        WebDriverWait(
+            self.driver, 10).until_not(expected_conditions.text_to_be_present_in_element(locator, text_in_element))
+
+    @allure.step("Найти все элементы с ожиданием")
+    def find_elements(self, locator, wait_time=10):
+        return WebDriverWait(self.driver, wait_time) \
+            .until(EC.presence_of_all_elements_located(locator),
+                   message=f"Не найдены элементы = {locator}")
+
+
+
+
+
     # @allure.step("Получение текста элемента")
     # def get_text(self, locator, wait_time=10):
     #     element = self.wait_for_visibility(locator, wait_time)
@@ -76,3 +91,4 @@ class BasePage:
     #             break
     #     if new_tab_handle:
     #         self.driver.switch_to.window(new_tab_handle)
+

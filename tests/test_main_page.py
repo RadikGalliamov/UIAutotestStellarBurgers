@@ -26,12 +26,12 @@ class TestMainPage:
         page = MainPageHelper(driver)
         page.open_url(TestDataUrl.MAIN_URL)
         page.find_and_click_on_the_bun()
-        assert page.find_text_the_order_feed(), "Не найден элемент текст 'Детали ингредиента' всплавающего окна 'Детали ингредиента'"
+        assert page.find_text_the_ingredient_details(), "Не найден элемент текст 'Детали ингредиента' всплавающего окна 'Детали ингредиента'"
 
-    @allure.title('Всплывающее окно закрывается кликом по крестику')
+    @allure.title('Всплывающее окно закрывается кликом по элементу крестик')
     @allure.description(
         "Кликаем на элемент булка, всплывающем окне находим текст 'Детали ингредиента' закрываем окно через крестик, всплавающее окно должно закрытся")
-    def test_the_pop_up_window_can_be_close_by_clicking_on_the_cross(self, driver):
+    def test_the_pop_up_window_is_closed_by_clicking_on_the_cross_element(self, driver):
         page = MainPageHelper(driver)
         page.open_url(TestDataUrl.MAIN_URL)
         page.find_and_click_on_the_bun()
@@ -41,7 +41,7 @@ class TestMainPage:
     @allure.title('При добавлении ингредиента в заказ счётчик этого ингредиента увеличивается')
     @allure.description(
         "Кликаем на элемент булка, перемещаем элемент булка в область заказа, проверяем счетчик в области элемента 'Флюоресцентная булка R2-D3'")
-    def test_the_pop_up_window_can_be_close_by_clicking_on_the_cross(self, driver):
+    def test_when_add_an_ingredient_to_an_order_the_counter_for_that_ingredient_increases(self, driver):
         page = MainPageHelper(driver)
         page.open_url(TestDataUrl.MAIN_URL)
         page.drag_item_to_order()
@@ -50,9 +50,8 @@ class TestMainPage:
     @allure.title('Аутентифицированный  пользователь может оформить заказ')
     @allure.description(
         "Аунтифицируемся пользователем, перетаскиваем элемент булка в область добавления заказа, кликаем кнопку 'Оформить заказ', получаем модальное окно 'Идентификатор заказа'")
-    def test_the_pop_up_window_can_be_close_by_clicking_on_the_cross(self, log_in):
+    def test_an_authenticated_user_can_place_an_order(self, log_in):
         page = MainPageHelper(log_in)
-        page.open_url(TestDataUrl.MAIN_URL)
         page.drag_item_to_order()
         page.click_on_the_place_an_order_button()
         assert page.the_order_id_modal_windows_appears(), "Не появилось модальное окно 'Идентификатор заказа'"

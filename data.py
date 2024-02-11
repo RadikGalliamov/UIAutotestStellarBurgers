@@ -17,3 +17,5 @@ class TestLoginPageData:
     password = "123456"
 
 
+class TestMainPageData:
+    text_in_id_modal_windows = "9999"
