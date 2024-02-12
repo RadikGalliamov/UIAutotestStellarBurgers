@@ -10,13 +10,12 @@ from data import TestLoginPageData, TestDataUrl
 from locators.login_page_locators import LoginPageLocators
 
 
-# Запуск браузера
-@pytest.fixture(params=["chrome"])  # params=["firefox", "chrome"]
+@pytest.fixture(params=["firefox", "chrome"])
 def driver(request):
-    # if request.param == "firefox":
-    #     firefox_driver = GeckoDriverManager().install()
-    #     service = FS(firefox_driver)
-    #     driver = webdriver.Firefox(service=service)
+    if request.param == "firefox":
+        firefox_driver = GeckoDriverManager().install()
+        service = FS(firefox_driver)
+        driver = webdriver.Firefox(service=service)
     if request.param == "chrome":
         chrome_driver = ChromeDriverManager().install()
         service = CS(chrome_driver)
@@ -34,4 +33,3 @@ def log_in(driver):
     driver.find_element(*LoginPageLocators.PASSWORD_FIELD).send_keys(TestLoginPageData.password)
     driver.find_element(*LoginPageLocators.ENTER).click()
     return driver
-

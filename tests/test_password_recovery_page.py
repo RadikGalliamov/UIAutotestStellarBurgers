@@ -2,7 +2,6 @@ import allure
 from data import TestDataUrl, TestForgotRecoveryData
 from locators.forgot_password_locators import ForgotPasswordPageLocators
 from pages.login_page import LoginPageHelper
-from pages.main_page import MainPageHelper
 from pages.forgot_password_page import ForgotPasswordPageHelper
 
 
