@@ -1,13 +1,12 @@
-import time
-
 import allure
-from selenium.webdriver.support.wait import WebDriverWait
 from data import TestMainPageData
 from locators.main_page_locators import MainPageLocators
 from pages.base_page import BasePage
-from selenium.webdriver.support import expected_conditions as EC
+
 
 class MainPageHelper(BasePage):
+    def __init__(self, driver):
+        super().__init__(driver)
 
     @allure.step("Клик по кнопке 'Войти в аккаунт'")
     def click_on_the_login_to_account_button(self):
@@ -78,12 +77,10 @@ class MainPageHelper(BasePage):
     @allure.step("Ожидаем исчезновения id 99999 в модальном окне 'Идентификатор заказа'")
     def disappearance_of_invalid_id_in_the_order_id_modal_window(self):
         self.is_disappeared(
-            locator=MainPageLocators.ID_ORDER_IN_MODAL_WINDOW,
-            text_in_element=TestMainPageData.text_in_id_modal_windows)
+            locator=MainPageLocators.ID_ORDER_IN_MODAL_WINDOW, text=TestMainPageData.text_in_id_modal_windows)
 
     @allure.step("Получить ID заказа в модальном окне 'Идентификатор заказа'")
     def the_order_id_modal_windows_data_of_order_in_order_feed(self):
-        time.sleep(2)
         return self.find_element(locator=MainPageLocators.ID_ORDER_IN_MODAL_WINDOW).text
 
     @allure.step("Закрыть модальное окно 'Идентификатор заказа'")
@@ -111,11 +108,35 @@ class MainPageHelper(BasePage):
         return self.find_element(locator=MainPageLocators.COUNTER_COMPLETED_TODAY).text
 
     @allure.step("Получить ID заказа в статусе 'В работе' в разделе 'Лента заказов'")
-    def get_the_order_id_in_the_in_progress_status_in_the_order_feed_section(self):
-        time.sleep(2)
-        # Ожидаем, пока текст "Все текущие заказы готовы!" исчезнет из элемента
-        WebDriverWait(self.driver, 10).until_not(
-            EC.text_to_be_present_in_element(MainPageLocators.IN_WORK_FEED_ORDER, 'Все текущие заказы готовы!')
-        )
-        # Возвращаем текст элемента после исчезновения "Все текущие заказы готовы!"
+    def get_order_id_in_status_in_order_feed_section(self):
+        self.is_disappeared(locator=MainPageLocators.IN_WORK_FEED_ORDER, text=TestMainPageData.text)
         return self.find_element(locator=MainPageLocators.IN_WORK_FEED_ORDER).text.strip()
+
+    @allure.step('Создать заказ и сохранить номер заказа')
+    def create_order_and_return_order(self):
+        self.drag_item_to_order()
+        self.click_on_the_place_an_order_button()
+        self.disappearance_of_invalid_id_in_the_order_id_modal_window()
+        order = self.the_order_id_modal_windows_data_of_order_in_order_feed()
+        self.close_modal_window_id_order()
+        return order
+
+    @allure.step('Создать один заказ и сохранить количество заказа раздела "Выполнено за сегодня"')
+    def create_order_and_save_order_numbers_in_completed_today_section(self):
+        self.drag_item_to_order()
+        self.click_on_the_place_an_order_button()
+        self.disappearance_of_invalid_id_in_the_order_id_modal_window()
+        self.close_modal_window_id_order()
+        self.click_on_the_order_feed()
+        orders_for_today = self.get_the_number_of_orders_for_today_in_the_order_feed_section()
+        return orders_for_today
+
+    @allure.step('Создать один заказ и сохранить количество заказа раздела "Выполнено за все время"')
+    def create_order_and_save_order_numbers_in_completed_for_all_time_section(self):
+        self.drag_item_to_order()
+        self.click_on_the_place_an_order_button()
+        self.disappearance_of_invalid_id_in_the_order_id_modal_window()
+        self.close_modal_window_id_order()
+        self.click_on_the_order_feed()
+        orders_for_all_time = self.get_the_number_of_orders_for_all_time_in_the_order_feed_section()
+        return orders_for_all_time

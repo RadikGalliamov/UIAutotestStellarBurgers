@@ -5,9 +5,7 @@ from selenium.webdriver.chrome.service import Service as CS
 from selenium.webdriver.firefox.service import Service as FS
 from webdriver_manager.chrome import ChromeDriverManager
 from webdriver_manager.firefox import GeckoDriverManager
-
-from data import TestLoginPageData, TestDataUrl
-from locators.login_page_locators import LoginPageLocators
+from pages.login_page import LoginPageHelper
 
 
 @pytest.fixture(params=["firefox", "chrome"])
@@ -28,8 +26,6 @@ def driver(request):
 
 @pytest.fixture()
 def log_in(driver):
-    driver.get(TestDataUrl.LOGIN_PAGE_URL)
-    driver.find_element(*LoginPageLocators.EMAIL_FIELD).send_keys(TestLoginPageData.email)
-    driver.find_element(*LoginPageLocators.PASSWORD_FIELD).send_keys(TestLoginPageData.password)
-    driver.find_element(*LoginPageLocators.ENTER).click()
-    return driver
+    LoginPageHelper(driver).login()
+
+

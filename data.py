@@ -19,3 +19,4 @@ class TestLoginPageData:
 
 class TestMainPageData:
     text_in_id_modal_windows = "9999"
+    text = "Все текущие заказы готовы!"

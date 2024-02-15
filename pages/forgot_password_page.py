@@ -25,5 +25,10 @@ class ForgotPasswordPageHelper(BasePage):
     def find_element_eye_and_click(self):
         self.find_element(locator=ForgotPasswordPageLocators.EYE_ACTIVE).click()
 
+    @allure.step("Найти поле 'Введите код из письма'")
+    def find_field_enter_pass_from_mail(self):
+        return self.find_element(locator=ForgotPasswordPageLocators.FIELD_ENTER_THE_CODE_FROM_THE_LETTER)
 
-
+    @allure.step("Найти активное поле 'Пароль'")
+    def find_field_active_field_password(self):
+        return self.find_element(locator=ForgotPasswordPageLocators.FIELD_PASSWORD_IS_ACTIVE)

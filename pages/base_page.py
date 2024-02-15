@@ -61,9 +61,15 @@ class BasePage:
         action_chains.drag_and_drop(element_to_drag, target_location).perform()
 
     @allure.step('Ожидаем исчезновения текста в элементе')
-    def is_disappeared(self, locator, text_in_element):
-        WebDriverWait(
-            self.driver, 10).until_not(expected_conditions.text_to_be_present_in_element(locator, text_in_element))
+    def is_disappeared(self, locator, text):
+        # Ожидаем, пока исчезнет исходный текст из элемента
+        WebDriverWait(self.driver, 10).until_not(
+            EC.text_to_be_present_in_element(locator, text)
+        )
+        # Ожидаем, пока текст элемента изменится
+        WebDriverWait(self.driver, 10).until(
+            lambda driver: self.find_element(locator).text.strip() != text
+        )
 
     @allure.step("Найти все элементы с ожиданием")
     def find_elements(self, locator, wait_time=10):
@@ -74,21 +80,4 @@ class BasePage:
 
 
 
-
-    # @allure.step("Получение текста элемента")
-    # def get_text(self, locator, wait_time=10):
-    #     element = self.wait_for_visibility(locator, wait_time)
-    #     return element.text
-
-    # @allure.step("Переключаемся на новую вкладку")
-    # def switch_to_new_tab(self):
-    #     main_window_handle = self.driver.current_window_handle
-    #     new_tab_handle = None
-    #     # Переключаемся на новую вкладку
-    #     for window_handle in self.driver.window_handles:
-    #         if window_handle != main_window_handle:
-    #             new_tab_handle = window_handle
-    #             break
-    #     if new_tab_handle:
-    #         self.driver.switch_to.window(new_tab_handle)
 
