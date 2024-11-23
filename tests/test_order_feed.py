@@ -10,7 +10,7 @@ class TestOrderFeedPage:
         "Переходим в раздел Лента заказов, кликаем любой заказ, видим что появилось модальное окно с данными о заказе")
     def test_click_on_the_order_opens_a_window_with_order_details(self, driver):
         page = MainPageHelper(driver)
-        page.open_url(TestDataUrl.LOGIN_PAGE_URL)
+        page._open(TestDataUrl.LOGIN_PAGE_URL)
         page.click_on_the_order_feed()
         page.click_on_any_one_order_in_the_order_feed_section()
         assert page.the_order_id_modal_windows_appears(), "Не появилось модальное окно 'Данные о заказе'"
@@ -39,7 +39,7 @@ class TestOrderFeedPage:
         page = MainPageHelper(driver)
         page.click_on_the_order_feed()
         counter_orders = page.get_the_number_of_orders_for_all_time_in_the_order_feed_section()
-        page.open_url(TestDataUrl.MAIN_URL)
+        page._open(TestDataUrl.MAIN_URL)
         counter_orders_udp = page.create_order_and_save_order_numbers_in_completed_for_all_time_section()
         assert counter_orders != counter_orders_udp, \
             "Cчетчик 'Выполнено за всё время' в разделе Лента заказов не увеличивается, после оформления нового заказа"
@@ -53,7 +53,7 @@ class TestOrderFeedPage:
         page = MainPageHelper(driver)
         page.click_on_the_order_feed()
         counter_orders = page.get_the_number_of_orders_for_today_in_the_order_feed_section()
-        page.open_url(TestDataUrl.MAIN_URL)
+        page._open(TestDataUrl.MAIN_URL)
         counter_orders_udp = page.create_order_and_save_order_numbers_in_completed_today_section()
         assert counter_orders != counter_orders_udp, \
             "Cчётчик 'Выполнено за сегодня' в разделе 'Лента заказов' не увеличивается, после оформления нового заказа"
