@@ -1,4 +1,4 @@
-# Инструкция по сборке образа/окружения
+# Инструкция по сборке образа/окружения для запуска тестов в изолированной среде
 FROM python:3.12.0a4-alpine3.17
 # Базовый образ: Python 3.12 на основе Alpine Linux.
 
@@ -10,6 +10,7 @@ RUN echo "https://dl-4.alpinelinux.org/alpine/v3.10/main" >> /etc/apk/repositori
 RUN apk update  # Обновление списка доступных пакетов.
 RUN apk add --no-cache chromium chromium-chromedriver tzdata
 
+# Установка зависимостей
 RUN wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub
 # Загрузка ключа для установки glibc (GNU C Library).
 RUN wget https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.30-r0/glibc-2.30-r0.apk
@@ -29,12 +30,12 @@ RUN apk update && \
     rm allure-2.13.8.tgz
     # Удаление архива для очистки.
 
-WORKDIR /usr/workspace
 # Установка рабочей директории внутри контейнера в /usr/workspace.
+WORKDIR /usr/workspace
 
 # Копирование файла с зависимостями (requirements.txt) из текущей директории на хосте в контейнер.
 COPY ./requirements.txt /usr/workspace
 
 # Установка Python-зависимостей, указанных в requirements.txt.
-RUN pip3 install -r requirements.txt
+RUN pip3 install -r requirements.txt && pip3 list
 
