@@ -37,5 +37,5 @@ WORKDIR /usr/workspace
 COPY ./requirements.txt /usr/workspace
 
 # Установка Python-зависимостей, указанных в requirements.txt.
-RUN pip3 install -r requirements.txt
+RUN pip3 install -r requirements.txt && pip3 list
 
